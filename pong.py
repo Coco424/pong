@@ -12,41 +12,63 @@ import time
 #sense = SenseHat()
 sense.clear();
 
-raquette=(0,0,255)
+raquette=[0,0,255]
 balle=(255,255,255)
 noir=(0,0,0)
-x = 3 
-y = 7
-z = 2
-depx = 1
-depy = 1
+depx=1
+depy=1
+x = 7
+y = 3
+z=0
 
-#affichage raquette bleu au bord (x, y, r, g, b)
-sense.set_pixel(0, z+0, raquette)
-sense.set_pixel(0, z+1, raquette)
-sense.set_pixel(0, z+2, raquette)
+# affichage raquette bleu au bord (x, y, r, g, b)
+def depraquette(lz):
+	if lz < z:
+		sense.set_pixel(0, lz+0, noir)
+	else:
+		sense.set_pixel(0, lz+2, noir)
+	sense.set_pixel(0, z+0, raquette)
+	sense.set_pixel(0, z+1, raquette)
+	sense.set_pixel(0, z+2, raquette)
+depraquette(0)
 
-#affichage balle blanche au centre (x, y, r, g, b)
+#deplace la raquette
+def joyup():
+	global z
+	lz = z	
+	if z < 5:
+		z += 1
+	depraquette(lz)
+
+#deplace la raquette
+def joydown():
+	global z
+	lz = z
+	if z > 0:
+		z -= 1
+	depraquette(lz)
+
+#positionne des evt sur le joystick
+sense.stick.direction_up = joydown
+sense.stick.direction_down = joyup
+
+# affichage balle blanche au centre (x, y, r, g, b)
 sense.set_pixel(x, y, balle)
 
 while 1:
-	   
 	if x == 0:
-		if (y<z or y>z+2):
+		if (y < z or y>z+2):
 			sense.set_pixel(x, y, 255, 0, 0)
 			break
 		else:
 			sense.set_pixel(x, y, raquette)
-	else:
-		sense.set_pixel(x, y, noir)			
-    	  
+	else:	
+		sense.set_pixel(x, y, noir)	
 	x -= depx
-	if x == 0 or x == 7:
+	if (x == 1 and y+1 >= z and y+1 <= z+2) or x == 7:
 		depx *= -1
 	y -= depy
 	if y == 0 or y == 7:
 		depy *= -1
 	sense.set_pixel(x, y, balle)
-    
-	time.sleep(0.2)    
-
+	time.sleep(1.2)	
