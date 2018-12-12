@@ -11,8 +11,8 @@ except:
 import time
 #sense = SenseHat()
 sense.clear();
-
-raquette=[0,0,255]
+rouge = (255,0,0)
+raquette=(0,0,255)
 balle=(255,255,255)
 noir=(0,0,0)
 depx=1
@@ -59,6 +59,7 @@ while 1:
 	if x == 0:
 		if (y < z or y>z+2):
 			sense.set_pixel(x, y, 255, 0, 0)
+			sense.show_message("Perdu !", text_colour =[255, 0, 0])
 			break
 		else:
 			sense.set_pixel(x, y, raquette)
