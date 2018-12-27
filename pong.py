@@ -59,7 +59,9 @@ while 1:
 	if x == 0:
 		if (y < z or y>z+2):
 			sense.set_pixel(x, y, 255, 0, 0)
+			time.sleep(2)
 			sense.show_message("Perdu !", text_colour =[255, 0, 0])
+			
 			break
 		else:
 			sense.set_pixel(x, y, raquette)
